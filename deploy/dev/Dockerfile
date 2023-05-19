@@ -1,6 +1,6 @@
 FROM openjdk:11-ea-jdk-slim
 
-COPY build.gradle build.gradle
+COPY . .
 
 ENV version=$(cat ./build.gradle | grep 'version = .*' | cut -d "'" -f 2)
 #ARG version=$(cat ./build.gradle | grep 'version = ".*"' -o | cut -d \"'\" -f 2)
