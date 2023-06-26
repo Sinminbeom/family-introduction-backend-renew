@@ -1,12 +1,10 @@
 package com.minbeom.familyintroductionbackendrenew;
 
-import com.minbeom.familyintroductionbackendrenew.repository.MemberRepository;
-import com.minbeom.familyintroductionbackendrenew.repository.MysqlMemberRepository;
-import com.minbeom.familyintroductionbackendrenew.service.MemberService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
+import com.minbeom.familyintroductionbackendrenew.repository.MysqlUserRepository;
+import com.minbeom.familyintroductionbackendrenew.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -40,12 +38,12 @@ public class AppConfig {
     }
 
     @Bean
-    public MemberRepository memberRepository() {
-        return new MysqlMemberRepository(dataSource());
+    public UserRepository userRepository() {
+        return new MysqlUserRepository(dataSource());
     }
 
     @Bean
-    public MemberService memberService() {
-        return new MemberService(memberRepository());
+    public UserService userService() {
+        return new UserService(userRepository());
     }
 }
