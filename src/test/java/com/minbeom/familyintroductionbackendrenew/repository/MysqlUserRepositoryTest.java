@@ -1,6 +1,6 @@
 package com.minbeom.familyintroductionbackendrenew.repository;
 
-import com.minbeom.familyintroductionbackendrenew.user.User;
+import com.minbeom.familyintroductionbackendrenew.domain.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

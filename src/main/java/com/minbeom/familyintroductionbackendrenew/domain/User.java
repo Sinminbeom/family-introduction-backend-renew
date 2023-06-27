@@ -1,13 +1,12 @@
-package com.minbeom.familyintroductionbackendrenew.user;
+package com.minbeom.familyintroductionbackendrenew.domain;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     private Long id;

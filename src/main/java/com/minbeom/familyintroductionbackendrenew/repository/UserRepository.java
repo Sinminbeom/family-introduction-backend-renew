@@ -1,6 +1,6 @@
 package com.minbeom.familyintroductionbackendrenew.repository;
 
-import com.minbeom.familyintroductionbackendrenew.user.User;
+import com.minbeom.familyintroductionbackendrenew.domain.User;
 
 import java.util.Optional;
 

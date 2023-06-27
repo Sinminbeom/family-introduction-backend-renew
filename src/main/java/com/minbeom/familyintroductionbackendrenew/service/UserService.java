@@ -1,7 +1,7 @@
 package com.minbeom.familyintroductionbackendrenew.service;
 
 import com.minbeom.familyintroductionbackendrenew.dto.UserDTO;
-import com.minbeom.familyintroductionbackendrenew.user.User;
+import com.minbeom.familyintroductionbackendrenew.domain.User;
 import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,8 +16,7 @@ public class UserService {
     }
 
     public Long join(UserDTO userDTO) {
-        User user = new User(userDTO.getName(), userDTO.getPassword(), userDTO.getEmail());
-        System.out.println("user.toString() = " + user.toString());
+        User user = UserDTO.toUser(userDTO);
         validateDuplicateUser(user);
         userRepository.save(user);
         return user.getId();

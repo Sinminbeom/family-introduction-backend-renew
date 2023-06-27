@@ -2,7 +2,7 @@ package com.minbeom.familyintroductionbackendrenew.controller;
 
 import com.minbeom.familyintroductionbackendrenew.AppConfig;
 import com.minbeom.familyintroductionbackendrenew.dto.UserDTO;
-import com.minbeom.familyintroductionbackendrenew.user.User;
+import com.minbeom.familyintroductionbackendrenew.domain.User;
 import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
 import com.minbeom.familyintroductionbackendrenew.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,6 @@ public class UserController {
     @PostMapping("/users/new")
     @ResponseBody
     public Long create(@RequestBody UserDTO userDTO) {
-//        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
-//        UserRepository userRepository = ac.getBean("userRepository", UserRepository.class);
         Long id = userService.join(userDTO);
 
 //        userRepository.save(user);
