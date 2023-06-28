@@ -40,6 +40,8 @@ public class ControllerExceptionHandler {
                 .message(e.toString())
                 .errors(e.getErrors());
 
+        System.out.println("response = " + response);
+        
         return new ResponseEntity<>(response, HttpStatus.resolve(errorCode.getStatus()));
     }
 }

@@ -16,6 +16,33 @@ public class ErrorResponse {
     private String code;
     private String message;
 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public String toString() {
+        return "ErrorResponse{" +
+                "timestamp=" + timestamp +
+                ", status=" + status +
+                ", code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", customFieldErrors=" + customFieldErrors +
+                '}';
+    }
+
     //@Valid의 Parameter 검증을 통과하지 못한 필드가 담긴다.
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty("errors")

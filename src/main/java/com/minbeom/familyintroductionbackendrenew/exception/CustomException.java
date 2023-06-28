@@ -3,6 +3,7 @@ package com.minbeom.familyintroductionbackendrenew.exception;
 import com.minbeom.familyintroductionbackendrenew.response.ErrorCode;
 
 public class CustomException extends RuntimeException{
+    private static final long serialVersionUID = 1L;
     private ErrorCode errorCode;
 
     public CustomException(ErrorCode errorCode) {
