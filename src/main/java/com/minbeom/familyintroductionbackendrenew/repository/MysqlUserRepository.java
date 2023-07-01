@@ -22,7 +22,7 @@ public class MysqlUserRepository implements UserRepository {
     }
     @Override
     public User save(User user) {
-        String sql = "insert into User(name, password, email) values(?, ?, ?)";
+        String sql = "insert into User(name, password, email, createTime, updateTime) values(?, ?, ?, now(), now())";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -48,20 +48,22 @@ public class MysqlUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findByName(String name) {
-        String sql = "select * from User where name = ?";
+    public Optional<User> findByEmail(String email) {
+        String sql = "select * from User where email = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, name);
+            pstmt.setString(1, email);
             rs = pstmt.executeQuery();
             if(rs.next()) {
                 User user = new User();
                 user.setId(rs.getLong("id"));
                 user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
                 return Optional.of(user);
             }
             return Optional.empty();
@@ -98,8 +100,34 @@ public class MysqlUserRepository implements UserRepository {
         }
     }
 
-    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs)
-    {
+
+//    @Override
+//    public Optional<User> login(String name, String password) {
+//        String sql = "select * from User where id = ? and password";
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        try {
+//            conn = getConnection();
+//            pstmt = conn.prepareStatement(sql);
+//            pstmt.setLong(1, id);
+//            rs = pstmt.executeQuery();
+//            if(rs.next()) {
+//                User user = new User();
+//                user.setId(rs.getLong("id"));
+//                user.setName(rs.getString("name"));
+//                return Optional.of(user);
+//            } else {
+//                return Optional.empty();
+//            }
+//        } catch (Exception e) {
+//            throw new IllegalStateException(e);
+//        } finally {
+//            close(conn, pstmt, rs);
+//        }
+//    }
+
+    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
             if (rs != null) {
                 rs.close();

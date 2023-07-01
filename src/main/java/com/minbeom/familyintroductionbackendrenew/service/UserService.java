@@ -15,15 +15,24 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Long join(UserDTO userDTO) {
+    public User join(UserDTO userDTO) {
         User user = UserDTO.toUser(userDTO);
         validateDuplicateUser(user);
         userRepository.save(user);
-        return user.getId();
+        return user;
+    }
+
+    public User login(UserDTO userDTO) {
+        User user = userRepository.findByEmail(userDTO.getEmail()).get();
+        if (user.getPassword().equals(userDTO.getPassword())) {
+            return user;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     private void validateDuplicateUser(User user) {
-        userRepository.findByName(user.getName())
+        userRepository.findByEmail(user.getEmail())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });

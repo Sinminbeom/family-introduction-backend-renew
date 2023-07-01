@@ -32,8 +32,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<Response> create(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
+    @PostMapping("/register")
+    public ResponseEntity<Response> register(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
         if (result.hasErrors()) {
             throw new InvalidParameterException(result);
         }
@@ -49,9 +49,15 @@ public class UserController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-//    @GetMapping("/minbeom")
-//    @ResponseBody
-//    public String select() {
-//        Long id = userService.join(userDTO);
-//    }
+    @PostMapping("/login")
+    @ResponseBody
+    public ResponseEntity<Response> login(@RequestBody UserDTO userDTO) {
+        User user = userService.login(userDTO);
+        Response response = new Response();
+        response.setData(user);
+        response.setStatus(200);
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("utf-8")));
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
 }
