@@ -39,9 +39,7 @@ public class UserController {
         }
 
         User user = userService.join(userDTO);
-        Response response = new Response();
-        response.setData(user);
-        response.setStatus(200);
+        Response response = new Response(200, user);
 
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("utf-8")));
@@ -53,9 +51,8 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<Response> login(@RequestBody UserDTO userDTO) {
         User user = userService.login(userDTO);
-        Response response = new Response();
-        response.setData(user);
-        response.setStatus(200);
+        Response response = new Response(200, user);
+
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("utf-8")));
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
