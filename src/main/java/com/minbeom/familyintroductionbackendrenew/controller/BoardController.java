@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.nio.charset.Charset;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000") // 허용할 출처를 설정합니다.
@@ -66,4 +67,17 @@ public class BoardController {
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
+    @GetMapping("/boards")
+    public ResponseEntity<Response> getBoards() {
+        List<Board> boards = boardService.findBoards();
+
+        Response response = new Response(200, boards);
+
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("utf-8")));
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
 }

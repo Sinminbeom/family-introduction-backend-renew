@@ -4,6 +4,8 @@ import com.minbeom.familyintroductionbackendrenew.domain.Board;
 import com.minbeom.familyintroductionbackendrenew.dto.BoardDTO;
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlBoardRepository;
 
+import java.util.List;
+
 public class BoardService {
     private final MysqlBoardRepository mysqlBoardRepository;
 
@@ -28,4 +30,9 @@ public class BoardService {
         Board board = mysqlBoardRepository.findById(boardId).get();
         return board;
     }
+
+    public List<Board> findBoards() {
+        return mysqlBoardRepository.findAll();
+    }
+
 }

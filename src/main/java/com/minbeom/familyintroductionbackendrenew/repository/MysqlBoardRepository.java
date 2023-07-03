@@ -5,6 +5,8 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class MysqlBoardRepository {
@@ -44,6 +46,34 @@ public class MysqlBoardRepository {
         }
     }
 
+    public List<Board> findAll() {
+        String sql =    "SELECT A.*, B.name AS createUserName" +
+                        "  FROM Board AS A " +
+                        "  JOIN User  AS B ON A.createUserId = B.id";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            List<Board> boards = new ArrayList<>();
+            while(rs.next()) {
+                Board board = new Board();
+                board.setId(rs.getLong("id"));
+                board.setTitle(rs.getString("title"));
+                board.setText(rs.getString("text"));
+                board.setCreateUserName(rs.getString("createUserName"));
+                boards.add(board);
+            }
+            return boards;
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
     public Optional<Board> findById(Long boardId) {
         String sql = "select * from Board where id = ?";
         Connection conn = null;
@@ -58,6 +88,7 @@ public class MysqlBoardRepository {
                 Board board = new Board();
                 board.setId(rs.getLong("id"));
                 board.setText(rs.getString("text"));
+                board.setTitle(rs.getString("title"));
 //                board.setName(rs.getString("name"));
 //                board.setPassword(rs.getString("password"));
 //                board.setEmail(rs.getString("email"));
@@ -70,6 +101,7 @@ public class MysqlBoardRepository {
             close(conn, pstmt, rs);
         }
     }
+
     private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
         try {
             if (rs != null) {
