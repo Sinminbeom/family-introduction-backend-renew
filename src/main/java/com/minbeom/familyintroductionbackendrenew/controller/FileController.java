@@ -19,8 +19,8 @@ public class FileController {
 
     @PostMapping("/upload")
     @ResponseBody
-    public String uploadFile(@RequestParam MultipartFile uploadFiles) throws IOException, GeneralSecurityException {
-        String fileId = GoogleDrive.getInstance().uploadFile(uploadFiles, uploadPath);
+    public String uploadFile(@RequestParam MultipartFile uploadFile) throws IOException, GeneralSecurityException {
+        String fileId = GoogleDrive.getInstance().uploadFile(uploadFile, uploadPath);
         return "https://drive.google.com/uc?export=view&id=" + fileId;
     }
 
