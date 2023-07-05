@@ -112,26 +112,26 @@ public class GoogleDrive {
         return instance;
     }
 
-    public static void main(String... args) throws IOException, GeneralSecurityException {
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-
-        // Print the names and IDs for up to 10 files.
-        FileList result = service.files().list()
-                .setPageSize(10)
-                .setFields("nextPageToken, files(id, name)")
-                .execute();
-        List<File> files = result.getFiles();
-        if (files == null || files.isEmpty()) {
-            System.out.println("No files found.");
-        } else {
-            System.out.println("Files:");
-            for (File file : files) {
-                System.out.printf("%s (%s)\n", file.getName(), file.getId());
-            }
-        }
-    }
+//    public static void main(String... args) throws IOException, GeneralSecurityException {
+//        // Build a new authorized API client service.
+//        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+//        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+//                .setApplicationName(APPLICATION_NAME)
+//                .build();
+//
+//        // Print the names and IDs for up to 10 files.
+//        FileList result = service.files().list()
+//                .setPageSize(10)
+//                .setFields("nextPageToken, files(id, name)")
+//                .execute();
+//        List<File> files = result.getFiles();
+//        if (files == null || files.isEmpty()) {
+//            System.out.println("No files found.");
+//        } else {
+//            System.out.println("Files:");
+//            for (File file : files) {
+//                System.out.printf("%s (%s)\n", file.getName(), file.getId());
+//            }
+//        }
+//    }
 }
