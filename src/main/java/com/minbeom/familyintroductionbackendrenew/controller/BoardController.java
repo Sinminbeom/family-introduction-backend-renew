@@ -25,8 +25,8 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @PostMapping("/boards")
-    public ResponseEntity<Response> getBoard(@Valid @RequestBody BoardDTO boardDTO, BindingResult result) {
+    @PostMapping("/board")
+    public ResponseEntity<Response> createBoard(@Valid @RequestBody BoardDTO boardDTO, BindingResult result) {
         if (result.hasErrors()) {
             throw new InvalidParameterException(result);
         }
@@ -41,8 +41,8 @@ public class BoardController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/boards/{boardId}")
-    public ResponseEntity<Response> createBoard(@PathVariable Long boardId) {
+    @GetMapping("/board/{boardId}")
+    public ResponseEntity<Response> getBoard(@PathVariable Long boardId) {
         Board board = boardService.get(boardId);
 
         Response response = new Response(200, board);
@@ -53,12 +53,12 @@ public class BoardController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-    @PutMapping("/boards/{boardId}")
-    @ResponseBody
+    @PutMapping("/board/{boardId}")
     public ResponseEntity<Response> updateBoard(@Valid @RequestBody BoardDTO boardDTO, BindingResult result, @PathVariable Long boardId) {
         if (result.hasErrors()) {
             throw new InvalidParameterException(result);
         }
+
         Board board = boardService.update(boardDTO);
         Response response = new Response(200, board);
 

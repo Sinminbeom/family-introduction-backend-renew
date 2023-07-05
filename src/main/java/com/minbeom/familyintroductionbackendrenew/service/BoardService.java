@@ -31,6 +31,13 @@ public class BoardService {
         return board;
     }
 
+    public Board save(BoardDTO boardDTO) {
+        Board board = BoardDTO.toUser(boardDTO);
+//        validateDuplicateBoard(board);
+        mysqlBoardRepository.create(board);
+        return board;
+    }
+
     public List<Board> findBoards() {
         return mysqlBoardRepository.findAll();
     }
