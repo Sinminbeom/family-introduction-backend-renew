@@ -10,4 +10,9 @@ public class Response {
     private LocalDateTime timestamp = LocalDateTime.now();
     private int status;
     private Object data;
+
+    public Response(int status, Object data) {
+        this.status = status;
+        this.data = data;
+    }
 }

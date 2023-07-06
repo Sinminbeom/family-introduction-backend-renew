@@ -1,7 +1,9 @@
 package com.minbeom.familyintroductionbackendrenew;
 
+import com.minbeom.familyintroductionbackendrenew.repository.MysqlBoardRepository;
 import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlUserRepository;
+import com.minbeom.familyintroductionbackendrenew.service.BoardService;
 import com.minbeom.familyintroductionbackendrenew.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -45,5 +47,15 @@ public class AppConfig {
     @Bean
     public UserService userService() {
         return new UserService(userRepository());
+    }
+
+    @Bean
+    public BoardService boardService() {
+        return new BoardService(mysqlBoardRepository());
+    }
+
+    @Bean
+    public MysqlBoardRepository mysqlBoardRepository() {
+        return new MysqlBoardRepository(dataSource());
     }
 }
