@@ -73,9 +73,9 @@ public class MysqlBoardRepository {
     }
 
     public List<Board> findAll() {
-        String sql =    "SELECT A.*, B.name AS createUserName" +
+        String sql =    "SELECT A.*, B.name AS createUserName, B.email AS userEmail" +
                         "  FROM Board AS A " +
-                        "  JOIN User  AS B ON A.createUserId = B.id";
+                        "  LEFT OUTER JOIN User  AS B ON A.createUserId = B.id";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -90,6 +90,7 @@ public class MysqlBoardRepository {
                 board.setTitle(rs.getString("title"));
                 board.setText(rs.getString("text"));
                 board.setCreateUserName(rs.getString("createUserName"));
+                board.setUserEmail(rs.getString("userEmail"));
                 boards.add(board);
             }
             return boards;

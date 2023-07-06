@@ -17,7 +17,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000") // 허용할 출처를 설정합니다.
+@CrossOrigin(origins = "*") // 허용할 출처를 설정합니다.
 public class BoardController {
     private final BoardService boardService;
 
