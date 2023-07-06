@@ -42,4 +42,8 @@ public class BoardService {
         return mysqlBoardRepository.findAll();
     }
 
+    public int delete(Long boardId) {
+        int deleteRow = mysqlBoardRepository.delete(boardId);
+        return deleteRow;
+    }
 }

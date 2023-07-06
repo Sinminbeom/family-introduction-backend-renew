@@ -23,7 +23,7 @@ public class ControllerExceptionHandler {
                 = ErrorResponse
                 .create()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message(e.toString());
+                .message(e.getLocalizedMessage());
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -39,7 +39,7 @@ public class ControllerExceptionHandler {
                 = ErrorResponse
                 .create()
                 .status(errorCode.getStatus())
-                .message(e.toString())
+                .message(e.getLocalizedMessage())
                 .errors(e.getErrors());
         
         return new ResponseEntity<>(response, HttpStatus.resolve(errorCode.getStatus()));
