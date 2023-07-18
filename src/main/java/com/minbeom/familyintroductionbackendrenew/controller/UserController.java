@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import java.nio.charset.Charset;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:3000") // 허용할 출처를 설정합니다.
+@CrossOrigin(origins = "*") // 허용할 출처를 설정합니다.
 public class UserController {
 
     private final UserService userService;

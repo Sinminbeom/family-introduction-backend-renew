@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -87,23 +88,26 @@ public class GoogleDrive {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-            // Upload file photo.jpg on drive.
-            File fileMetadata = new File();
-            fileMetadata.setName(uploadfile.getOriginalFilename());
+        // Upload file photo.jpg on drive.
+        File fileMetadata = new File();
+        List folderIdList = new ArrayList<String>();
+        folderIdList.add("1aXQva8IcMGybJFP_ILN8Sskcku0A0eOJ");
+        fileMetadata.setParents(folderIdList);
+        fileMetadata.setName(uploadfile.getOriginalFilename());
 
-            // File's content.
-            java.io.File file= new java.io.File(uploadPath + uploadfile.getOriginalFilename());
+        // File's content.
+        java.io.File file= new java.io.File(uploadPath + uploadfile.getOriginalFilename());
 
-            uploadfile.transferTo(file);
-            System.out.println("file.getAbsolutePath() = " + file.getAbsolutePath());
+        uploadfile.transferTo(file);
+        System.out.println("file.getAbsolutePath() = " + file.getAbsolutePath());
 
-            // Specify media type and file-path for file.
-            FileContent mediaContent = new FileContent("image/png", file);
-            File uploadFile = service.files().create(fileMetadata, mediaContent)
-                    .setFields("id")
-                    .execute();
+        // Specify media type and file-path for file.
+        FileContent mediaContent = new FileContent("image/png", file);
+        File uploadFile = service.files().create(fileMetadata, mediaContent)
+                .setFields("id")
+                .execute();
 
-            return uploadFile.getId();
+        return uploadFile.getId();
     }
 
     private GoogleDrive() {}
