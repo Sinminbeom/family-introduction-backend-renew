@@ -1,9 +1,11 @@
 package com.minbeom.familyintroductionbackendrenew;
 
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlBoardRepository;
+import com.minbeom.familyintroductionbackendrenew.repository.MysqlCommentRepository;
 import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlUserRepository;
 import com.minbeom.familyintroductionbackendrenew.service.BoardService;
+import com.minbeom.familyintroductionbackendrenew.service.CommentService;
 import com.minbeom.familyintroductionbackendrenew.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -57,5 +59,15 @@ public class AppConfig {
     @Bean
     public MysqlBoardRepository mysqlBoardRepository() {
         return new MysqlBoardRepository(dataSource());
+    }
+
+    @Bean
+    public CommentService commentService() {
+        return new CommentService(mysqlCommentRepository());
+    }
+
+    @Bean
+    public MysqlCommentRepository mysqlCommentRepository() {
+        return new MysqlCommentRepository(dataSource());
     }
 }

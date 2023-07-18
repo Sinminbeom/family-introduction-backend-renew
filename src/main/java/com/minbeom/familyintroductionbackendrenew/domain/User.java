@@ -13,6 +13,8 @@ public class User {
     private String name;
     private String password;
     private String email;
+    private String avatar;
+    private String time;
 
     public User(String name, String password, String email) {
         this.name = name;

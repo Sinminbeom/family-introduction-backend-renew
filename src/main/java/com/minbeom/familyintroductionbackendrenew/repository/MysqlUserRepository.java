@@ -10,16 +10,11 @@ import java.sql.*;
 import java.util.Optional;
 
 //@Component
-public class MysqlUserRepository implements UserRepository {
-    private final DataSource dataSource;
-
-//    @Autowired
+public class MysqlUserRepository extends MysqlRepositoryBase implements UserRepository {
     public MysqlUserRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+        super(dataSource);
     }
-    private Connection getConnection() {
-        return DataSourceUtils.getConnection(dataSource);
-    }
+
     @Override
     public User save(User user) {
         String sql = "insert into User(name, password, email, createTime, updateTime) values(?, ?, ?, now(), now())";
@@ -126,31 +121,4 @@ public class MysqlUserRepository implements UserRepository {
 //            close(conn, pstmt, rs);
 //        }
 //    }
-
-    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (conn != null) {
-                close(conn);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    private void close(Connection conn) throws SQLException {
-        DataSourceUtils.releaseConnection(conn, dataSource);
-    }
 }

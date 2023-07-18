@@ -1,6 +1,7 @@
 package com.minbeom.familyintroductionbackendrenew.service;
 
 import com.minbeom.familyintroductionbackendrenew.domain.Board;
+import com.minbeom.familyintroductionbackendrenew.domain.Comment;
 import com.minbeom.familyintroductionbackendrenew.dto.BoardDTO;
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlBoardRepository;
 
@@ -46,4 +47,5 @@ public class BoardService {
         int deleteRow = mysqlBoardRepository.delete(boardId);
         return deleteRow;
     }
+
 }
