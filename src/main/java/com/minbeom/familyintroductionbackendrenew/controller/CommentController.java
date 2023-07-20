@@ -5,6 +5,7 @@ import com.minbeom.familyintroductionbackendrenew.dto.BoardDTO;
 import com.minbeom.familyintroductionbackendrenew.dto.CommentDTO;
 import com.minbeom.familyintroductionbackendrenew.response.Response;
 import com.minbeom.familyintroductionbackendrenew.service.CommentService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,6 +40,19 @@ public class CommentController {
     public ResponseEntity<Response> saveComment(@RequestBody CommentDTO commentDTO) {
         Comment comment = commentService.saveComment(commentDTO);
         Response response = new Response(200, comment);
+
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("utf-8")));
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<Response> deleteComment(@PathVariable Long commentId) {
+        int deleteRow = commentService.deleteComment(commentId);
+        if (deleteRow == 0) {
+            throw new DataAccessException("comment 삭제에 실패했습니다.") {};
+        }
+        Response response = new Response(200, deleteRow);
 
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("utf-8")));

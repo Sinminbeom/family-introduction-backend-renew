@@ -35,4 +35,9 @@ public class CommentService {
         mysqlCommentRepository.save(comment);
         return comment;
     }
+
+    public int deleteComment(Long commentId) {
+        int deleteRow = mysqlCommentRepository.delete(commentId);
+        return deleteRow;
+    }
 }
