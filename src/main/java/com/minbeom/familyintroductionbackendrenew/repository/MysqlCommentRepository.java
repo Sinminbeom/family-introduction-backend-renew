@@ -81,4 +81,22 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
             close(conn, pstmt, rs);
         }
     }
+
+    public int delete(Long commentId) {
+        String sql = "DELETE FROM Comment WHERE id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, commentId);
+            int deletedRow = pstmt.executeUpdate();
+            return deletedRow;
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
 }
