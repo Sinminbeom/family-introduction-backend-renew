@@ -1,6 +1,7 @@
 package com.minbeom.familyintroductionbackendrenew.controller;
 
 import com.minbeom.familyintroductionbackendrenew.domain.Board;
+import com.minbeom.familyintroductionbackendrenew.domain.Comment;
 import com.minbeom.familyintroductionbackendrenew.dto.BoardDTO;
 import com.minbeom.familyintroductionbackendrenew.exception.InvalidParameterException;
 import com.minbeom.familyintroductionbackendrenew.response.Response;
@@ -26,7 +27,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @PostMapping("/board")
+    @PostMapping("/boards")
     public ResponseEntity<Response> createBoard(@Valid @RequestBody BoardDTO boardDTO, BindingResult result) {
         if (result.hasErrors()) {
             throw new InvalidParameterException(result);
@@ -42,7 +43,7 @@ public class BoardController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/board/{boardId}")
+    @GetMapping("/boards/{boardId}")
     public ResponseEntity<Response> getBoard(@PathVariable Long boardId) {
         Board board = boardService.get(boardId);
 
@@ -54,7 +55,7 @@ public class BoardController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-    @PutMapping("/board/{boardId}")
+    @PutMapping("/boards/{boardId}")
     public ResponseEntity<Response> updateBoard(@Valid @RequestBody BoardDTO boardDTO, BindingResult result, @PathVariable Long boardId) {
         if (result.hasErrors()) {
             throw new InvalidParameterException(result);
@@ -81,7 +82,7 @@ public class BoardController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-    @DeleteMapping("/board/{boardId}")
+    @DeleteMapping("/boards/{boardId}")
     public ResponseEntity<Response> deleteBoard(@PathVariable Long boardId) {
         int deleteRow = boardService.delete(boardId);
         if (deleteRow == 0) {
@@ -95,4 +96,5 @@ public class BoardController {
 
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
+
 }

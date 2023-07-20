@@ -1,23 +1,17 @@
 package com.minbeom.familyintroductionbackendrenew.repository;
 
 import com.minbeom.familyintroductionbackendrenew.domain.Board;
+import com.minbeom.familyintroductionbackendrenew.domain.Comment;
+import com.minbeom.familyintroductionbackendrenew.service.BoardService;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class MysqlBoardRepository {
-    private final DataSource dataSource;
-
+public class MysqlBoardRepository extends MysqlRepositoryBase{
     public MysqlBoardRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    private Connection getConnection() {
-        return DataSourceUtils.getConnection(dataSource);
+        super(dataSource);
     }
 
     public Board update(Board board) {
@@ -146,33 +140,6 @@ public class MysqlBoardRepository {
         } finally {
             close(conn, pstmt, rs);
         }
-    }
-
-    private void close(Connection conn, PreparedStatement pstmt, ResultSet rs) {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (conn != null) {
-                close(conn);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    private void close(Connection conn) throws SQLException {
-        DataSourceUtils.releaseConnection(conn, dataSource);
     }
 
 }
