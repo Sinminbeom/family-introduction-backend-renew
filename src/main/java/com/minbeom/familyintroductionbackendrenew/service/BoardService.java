@@ -15,16 +15,15 @@ public class BoardService {
     }
     public Board create(BoardDTO boardDTO) {
         Board board = BoardDTO.toUser(boardDTO);
-//        validateDuplicateBoard(board);
         mysqlBoardRepository.create(board);
         return board;
     }
 
-    private void validateDuplicateBoard(Board board) {
-    }
-
-    public Board update(BoardDTO boardDTO) {
-        return null;
+    public Board update(Long boardId, BoardDTO boardDTO) {
+        Board board = BoardDTO.toUser(boardDTO);
+        board.setId(boardId);
+        mysqlBoardRepository.update(boardId, board);
+        return board;
     }
 
     public Board get(Long boardId) {
@@ -34,7 +33,6 @@ public class BoardService {
 
     public Board save(BoardDTO boardDTO) {
         Board board = BoardDTO.toUser(boardDTO);
-//        validateDuplicateBoard(board);
         mysqlBoardRepository.create(board);
         return board;
     }

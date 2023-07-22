@@ -14,7 +14,6 @@ public class Comment {
     private User profile;
     private Data data;
     private Long parentId;
-    private Long boardId;
     //    private String text;
     //    private List<Comment> replies;
     //    private Long userId;

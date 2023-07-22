@@ -16,12 +16,15 @@ public class UserDTO {
     @Email
     @NotBlank(message = "email은 필수 값입니다.")
     private String email;
+    @NotBlank(message = "image는 필수 값입니다.")
+    private String avatar;
 
     public static User toUser(UserDTO userDTO) {
         return User.builder()
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
+                .avatar(userDTO.getAvatar())
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package com.minbeom.familyintroductionbackendrenew.service;
 import com.minbeom.familyintroductionbackendrenew.domain.Comment;
 import com.minbeom.familyintroductionbackendrenew.dto.CommentDTO;
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlCommentRepository;
+import org.springframework.dao.DataAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +31,24 @@ public class CommentService {
         return commentList.stream().filter(comment -> comment.getParentId().equals(0L)).collect(Collectors.toList());
     }
 
-    public Comment saveComment(CommentDTO commentDTO) {
+    public Comment saveComment(Long boardId, CommentDTO commentDTO) {
         Comment comment = CommentDTO.toComment(commentDTO);
-        mysqlCommentRepository.save(comment);
+        mysqlCommentRepository.save(boardId, comment);
         return comment;
     }
 
     public int deleteComment(Long commentId) {
         int deleteRow = mysqlCommentRepository.delete(commentId);
+        if (deleteRow == 0) {
+            throw new DataAccessException("comment 삭제에 실패했습니다.") {};
+        }
         return deleteRow;
+    }
+
+    public Comment saveReply(Long boardId, Long parentId, CommentDTO commentDTO) {
+        Comment comment = CommentDTO.toComment(commentDTO);
+        comment.setParentId(parentId);
+        mysqlCommentRepository.saveReply(boardId, parentId, comment);
+        return comment;
     }
 }

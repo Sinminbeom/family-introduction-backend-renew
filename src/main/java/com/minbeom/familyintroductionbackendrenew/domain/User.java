@@ -29,6 +29,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }

@@ -15,6 +15,7 @@ public class Board {
     private String createUserName;
     private Long updateUserId;
     private String userEmail;
+    private String userAvatar;
 
     public Board(String title, String text, Long createUserId, Long updateUserId) {
         this.title = title;
