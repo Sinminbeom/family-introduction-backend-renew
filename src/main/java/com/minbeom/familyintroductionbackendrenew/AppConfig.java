@@ -1,5 +1,6 @@
 package com.minbeom.familyintroductionbackendrenew;
 
+import com.minbeom.familyintroductionbackendrenew.aop.LogTraceAop;
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlBoardRepository;
 import com.minbeom.familyintroductionbackendrenew.repository.MysqlCommentRepository;
 import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
@@ -70,4 +71,5 @@ public class AppConfig {
     public MysqlCommentRepository mysqlCommentRepository() {
         return new MysqlCommentRepository(dataSource());
     }
+
 }

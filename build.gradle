@@ -36,6 +36,10 @@ dependencies {
 	implementation 'com.google.apis:google-api-services-drive:v3-rev20220815-2.0.0'
 	// 암호화 의존성 추가
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+	// AOP 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	// Log4jdbc-log4j2 의존성 추가
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 }
 
 tasks.named('test') {
