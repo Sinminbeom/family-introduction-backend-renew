@@ -1,9 +1,6 @@
 package com.minbeom.familyintroductionbackendrenew.repository;
 
 import com.minbeom.familyintroductionbackendrenew.domain.Board;
-import com.minbeom.familyintroductionbackendrenew.domain.Comment;
-import com.minbeom.familyintroductionbackendrenew.service.BoardService;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -14,24 +11,19 @@ public class MysqlBoardRepository extends MysqlRepositoryBase{
         super(dataSource);
     }
 
-    public Board update(Board board) {
-        String sql = "update Board set title = ?, text = ?,  ";
+    public Board update(Long boardId, Board board) {
+        String sql = "update Board set title = ?, text = ?, updateUserId = ?, updateTime = now() where id = ?";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, board.getText());
-            pstmt.setLong(2, board.getCreateUserId());
+            pstmt.setString(1, board.getTitle());
+            pstmt.setString(2, board.getText());
             pstmt.setLong(3, board.getUpdateUserId());
+            pstmt.setLong(4, boardId);
             pstmt.executeUpdate();
-            rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                board.setId(rs.getLong(1));
-            } else {
-                throw new SQLException("id 조회 실패");
-            }
             return board;
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -68,7 +60,7 @@ public class MysqlBoardRepository extends MysqlRepositoryBase{
     }
 
     public List<Board> findAll() {
-        String sql =    "SELECT A.*, B.name AS createUserName, B.email AS userEmail" +
+        String sql =    "SELECT A.*, B.name AS createUserName, B.email AS userEmail, B.avatar AS userAvatar" +
                         "  FROM Board AS A " +
                         "  LEFT OUTER JOIN User  AS B ON A.createUserId = B.id";
         Connection conn = null;
@@ -86,6 +78,7 @@ public class MysqlBoardRepository extends MysqlRepositoryBase{
                 board.setText(rs.getString("text"));
                 board.setCreateUserName(rs.getString("createUserName"));
                 board.setUserEmail(rs.getString("userEmail"));
+                board.setUserAvatar(rs.getString("userAvatar"));
                 boards.add(board);
             }
             return boards;

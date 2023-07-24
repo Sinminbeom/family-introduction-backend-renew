@@ -18,7 +18,7 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
     }
 
     public List<Comment> findById(Long boardId) {
-        String sql = "SELECT A.*, B.id AS userId, B.name AS userName\n" +
+        String sql = "SELECT A.*, B.id AS userId, B.name AS userName, B.avatar AS userAvatar\n" +
                      "from Comment AS A\n" +
                      "LEFT OUTER JOIN User AS B ON A.createUserId = B.id\n" +
                      "WHERE boardId = ?";
@@ -36,6 +36,7 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
                 User user = new User();
                 user.setId(rs.getLong("userId"));
                 user.setName(rs.getString("userName"));
+                user.setAvatar(rs.getString("userAvatar"));
 
                 Data data = new Data();
                 data.setComment(rs.getString("text"));
@@ -55,7 +56,7 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
         }
     }
 
-    public Comment save(Comment comment) {
+    public Comment save(Long boardId, Comment comment) {
         String sql = "insert into Comment(parentId, boardId, text, createUserId, createTime, updateUserId, updateTime) values(0, ?, ?, ?, now(), ?, now())";
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -63,7 +64,7 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setLong(1, comment.getBoardId());
+            pstmt.setLong(1, boardId);
             pstmt.setString(2, comment.getData().getComment());
             pstmt.setLong(3, comment.getProfile().getId());
             pstmt.setLong(4, comment.getProfile().getId());
@@ -93,6 +94,34 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
             pstmt.setLong(1, commentId);
             int deletedRow = pstmt.executeUpdate();
             return deletedRow;
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+    public Comment saveReply(Long boardId, Long parentId, Comment comment) {
+        String sql = "insert into Comment(parentId, boardId, text, createUserId, createTime, updateUserId, updateTime) values(?, ?, ?, ?, now(), ?, now())";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setLong(1, parentId);
+            pstmt.setLong(2, boardId);
+            pstmt.setString(3, comment.getData().getComment());
+            pstmt.setLong(4, comment.getProfile().getId());
+            pstmt.setLong(5, comment.getProfile().getId());
+            pstmt.executeUpdate();
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                comment.setId(rs.getLong(1));
+            } else {
+                throw new SQLException("id 조회 실패");
+            }
+            return comment;
         } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {

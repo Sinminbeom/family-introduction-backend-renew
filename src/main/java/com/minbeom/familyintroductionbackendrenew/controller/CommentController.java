@@ -36,9 +36,20 @@ public class CommentController {
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
 
-    @PostMapping("/comments")
-    public ResponseEntity<Response> saveComment(@RequestBody CommentDTO commentDTO) {
-        Comment comment = commentService.saveComment(commentDTO);
+    @PostMapping("/boards/{boardId}/comments")
+    public ResponseEntity<Response> saveComment(@PathVariable Long boardId, @RequestBody CommentDTO commentDTO) {
+        Comment comment = commentService.saveComment(boardId, commentDTO);
+        Response response = new Response(200, comment);
+
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("utf-8")));
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/boards/{boardId}/comments/{parentId}")
+    public ResponseEntity<Response> saveReply(@PathVariable Long boardId, @PathVariable Long parentId, @RequestBody CommentDTO commentDTO) {
+        Comment comment = commentService.saveReply(boardId, parentId, commentDTO);
+        System.out.println("comment = " + comment);
         Response response = new Response(200, comment);
 
         HttpHeaders headers= new HttpHeaders();
@@ -49,9 +60,6 @@ public class CommentController {
     @DeleteMapping("/comments/{commentId}")
     public ResponseEntity<Response> deleteComment(@PathVariable Long commentId) {
         int deleteRow = commentService.deleteComment(commentId);
-        if (deleteRow == 0) {
-            throw new DataAccessException("comment 삭제에 실패했습니다.") {};
-        }
         Response response = new Response(200, deleteRow);
 
         HttpHeaders headers= new HttpHeaders();

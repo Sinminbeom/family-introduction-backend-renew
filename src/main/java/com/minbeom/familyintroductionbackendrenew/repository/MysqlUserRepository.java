@@ -17,7 +17,7 @@ public class MysqlUserRepository extends MysqlRepositoryBase implements UserRepo
 
     @Override
     public User save(User user) {
-        String sql = "insert into User(name, password, email, createTime, updateTime) values(?, ?, ?, now(), now())";
+        String sql = "insert into User(name, password, email, avatar, createTime, updateTime) values(?, ?, ?, ?, now(), now())";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -27,6 +27,7 @@ public class MysqlUserRepository extends MysqlRepositoryBase implements UserRepo
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getEmail());
+            pstmt.setString(4, user.getAvatar());
             pstmt.executeUpdate();
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
@@ -59,6 +60,7 @@ public class MysqlUserRepository extends MysqlRepositoryBase implements UserRepo
                 user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
+                user.setAvatar(rs.getString("avatar"));
                 return Optional.of(user);
             }
             return Optional.empty();
@@ -84,6 +86,9 @@ public class MysqlUserRepository extends MysqlRepositoryBase implements UserRepo
                 User user = new User();
                 user.setId(rs.getLong("id"));
                 user.setName(rs.getString("name"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                user.setAvatar(rs.getString("avatar"));
                 return Optional.of(user);
             } else {
                 return Optional.empty();

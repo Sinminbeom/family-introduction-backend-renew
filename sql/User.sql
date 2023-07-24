@@ -4,6 +4,7 @@ CREATE TABLE User (
                          `name` varchar(255),
                          `password` varchar(255),
                          `email` varchar(255),
+                         `avatar` LONGTEXT,
                          `createTime` DATETIME NULL DEFAULT NULL,
                          `updateTime` DATETIME NULL DEFAULT NULL,
                          PRIMARY KEY (`id`) USING BTREE

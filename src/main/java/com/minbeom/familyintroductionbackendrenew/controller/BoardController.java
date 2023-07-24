@@ -61,7 +61,7 @@ public class BoardController {
             throw new InvalidParameterException(result);
         }
 
-        Board board = boardService.update(boardDTO);
+        Board board = boardService.update(boardId, boardDTO);
         Response response = new Response(200, board);
 
         HttpHeaders headers= new HttpHeaders();
