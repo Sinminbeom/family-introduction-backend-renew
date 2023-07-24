@@ -1,10 +1,10 @@
 FROM openjdk:11-ea-jdk-slim
 
-COPY ./build/libs/*.jar javaexec.jar
-
+RUN mkdir -p /log
 RUN mkdir tokens
-COPY ./tokens ./tokens
-
 RUN mkdir upload
+
+COPY ./build/libs/*.jar javaexec.jar
+COPY ./tokens ./tokens
 
 ENTRYPOINT ["java","-jar","javaexec.jar"]
