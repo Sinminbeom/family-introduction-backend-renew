@@ -27,7 +27,7 @@ public class UserService {
         if (user.getPassword().equals(userDTO.getPassword())) {
             return user;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다");
         }
     }
 
