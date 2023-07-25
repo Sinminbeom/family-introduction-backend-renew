@@ -12,6 +12,9 @@ services:
     environment:
       - TZ=Asia/Seoul
     restart: always
+    volumes:
+      - ./log:/log
+
 
 networks:
   infra_network:
