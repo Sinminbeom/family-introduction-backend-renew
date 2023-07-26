@@ -104,6 +104,7 @@ public class MysqlBoardRepository extends MysqlRepositoryBase{
                 board.setId(rs.getLong("id"));
                 board.setTitle(rs.getString("title"));
                 board.setText(rs.getString("text"));
+                board.setCreateUserId(rs.getLong("createUserId"));
 //                board.setName(rs.getString("name"));
 //                board.setPassword(rs.getString("password"));
 //                board.setEmail(rs.getString("email"));

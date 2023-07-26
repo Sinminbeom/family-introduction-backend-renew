@@ -83,6 +83,28 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
         }
     }
 
+    public Long checkParent(Long commentId) {
+        String sql = "SELECT parentId FROM Comment WHERE id = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Long parentId = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, commentId);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                parentId = rs.getLong(1);
+            }
+            return parentId;
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
     public int delete(Long commentId) {
         String sql = "DELETE FROM Comment WHERE id = ?";
         Connection conn = null;
@@ -122,6 +144,24 @@ public class MysqlCommentRepository extends MysqlRepositoryBase{
                 throw new SQLException("id 조회 실패");
             }
             return comment;
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        } finally {
+            close(conn, pstmt, rs);
+        }
+    }
+
+    public int deleteChild(Long parentId) {
+        String sql = "DELETE FROM Comment WHERE parentId = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, parentId);
+            int deletedRow = pstmt.executeUpdate();
+            return deletedRow;
         } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {
