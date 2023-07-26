@@ -2,6 +2,8 @@ package com.minbeom.familyintroductionbackendrenew.service;
 
 import com.minbeom.familyintroductionbackendrenew.dto.UserDTO;
 import com.minbeom.familyintroductionbackendrenew.domain.User;
+import com.minbeom.familyintroductionbackendrenew.exception.InvalidPasswordException;
+import com.minbeom.familyintroductionbackendrenew.exception.ValidateDuplicateUserException;
 import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,14 +29,14 @@ public class UserService {
         if (user.getPassword().equals(userDTO.getPassword())) {
             return user;
         } else {
-            throw new IllegalArgumentException("비밀번호가 틀렸습니다");
+            throw new InvalidPasswordException();
         }
     }
 
     private void validateDuplicateUser(User user) {
         userRepository.findByEmail(user.getEmail())
                 .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
+                    throw new ValidateDuplicateUserException();
                 });
     }
 
