@@ -1,11 +1,9 @@
 package com.minbeom.familyintroductionbackendrenew;
 
 import com.minbeom.familyintroductionbackendrenew.aop.LogTraceAop;
-import com.minbeom.familyintroductionbackendrenew.repository.MysqlBoardRepository;
-import com.minbeom.familyintroductionbackendrenew.repository.MysqlCommentRepository;
-import com.minbeom.familyintroductionbackendrenew.repository.UserRepository;
-import com.minbeom.familyintroductionbackendrenew.repository.MysqlUserRepository;
+import com.minbeom.familyintroductionbackendrenew.repository.*;
 import com.minbeom.familyintroductionbackendrenew.service.BoardService;
+import com.minbeom.familyintroductionbackendrenew.service.CalendarService;
 import com.minbeom.familyintroductionbackendrenew.service.CommentService;
 import com.minbeom.familyintroductionbackendrenew.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,4 +70,13 @@ public class AppConfig {
         return new MysqlCommentRepository(dataSource());
     }
 
+    @Bean
+    public CalendarService calendarService() {
+        return new CalendarService(mysqlCalendarRepository());
+    }
+
+    @Bean
+    public MysqlCalendarRepository mysqlCalendarRepository() {
+        return new MysqlCalendarRepository(dataSource());
+    }
 }
